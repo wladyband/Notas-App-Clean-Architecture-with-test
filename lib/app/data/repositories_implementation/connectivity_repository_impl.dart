@@ -1,6 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:stream/app/data/services/remote/internet_checker.dart';
-import 'package:stream/app/domain/repositories/connectivity_repository.dart';
+import 'package:notas/app/data/services/remote/internet_checker.dart';
+import 'package:notas/app/domain/repositories/connectivity_repository.dart';
 
 class ConnectivityRepositoryImpl implements ConnectivityRepository {
   final Connectivity _connectivity;

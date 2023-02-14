@@ -1,8 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:stream/app/domain/either.dart';
-import 'package:stream/app/domain/models/enums.dart';
-import 'package:stream/app/domain/models/user.dart';
-import 'package:stream/app/domain/repositories/authentication_repository.dart';
+import 'package:notas/app/domain/either.dart';
+import 'package:notas/app/domain/models/enums.dart';
+import 'package:notas/app/domain/models/user.dart';
+import 'package:notas/app/domain/repositories/authentication_repository.dart';
 
 const _key = 'sessionId';
 
