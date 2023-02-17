@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:notas/app/data/services/remote/authentication_api.dart';
 import 'package:notas/app/domain/either.dart';
 import 'package:notas/app/domain/models/enums.dart';
 import 'package:notas/app/domain/models/user.dart';
@@ -9,7 +10,9 @@ const _key = 'sessionId';
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final FlutterSecureStorage _secureStorage;
 
-  AuthenticationRepositoryImpl(this._secureStorage);
+  final AuthenticationAPI _authenticationAPI;
+
+  AuthenticationRepositoryImpl(this._secureStorage, this._authenticationAPI);
 
   @override
   Future<User?> getUserData() {
@@ -28,6 +31,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     String password,
   ) async {
     //TODO;
+    final resulta = await _authenticationAPI.createSessionWithLogin(
+        username: username, password: password);
     await Future.delayed(const Duration(seconds: 6));
     if (username != 'test') {
       return Either.left(SignFailure.notFound);
