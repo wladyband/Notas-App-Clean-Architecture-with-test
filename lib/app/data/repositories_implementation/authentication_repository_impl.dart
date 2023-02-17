@@ -31,19 +31,17 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     String password,
   ) async {
     //TODO;
-    final resulta = await _authenticationAPI.createSessionWithLogin(
-        username: username, password: password);
-    await Future.delayed(const Duration(seconds: 6));
-    if (username != 'test') {
-      return Either.left(SignFailure.notFound);
-    }
-    if (password != '123456') {
-      return Either.left(SignFailure.unauthorized);
-    }
-
-    await _secureStorage.write(key: _key, value: '123');
-    return Either.right(
-      User(),
+    final loginResult = await _authenticationAPI.createSessionWithLogin(
+      email: username,
+      password: password,
+    );
+    return loginResult.when(
+      (failure) {
+        return Either.left(failure);
+      },
+      (newRequestToken) {
+        return Either.right(User());
+      },
     );
   }
 
