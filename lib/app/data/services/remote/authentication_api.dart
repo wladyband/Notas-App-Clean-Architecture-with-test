@@ -10,6 +10,7 @@ class AuthenticationAPI {
 
   AuthenticationAPI(this._client);
   final _baseURL = 'http://192.168.1.113:3333/sessions';
+  late final String newRequestToken;
 
   Future<Either<SignFailure, String>> createSessionWithLogin({
     required String email,
@@ -34,7 +35,7 @@ class AuthenticationAPI {
           final json = Map<String, dynamic>.from(
             jsonDecode(response.body),
           );
-          final newRequestToken = json['user']['token'] as String;
+          newRequestToken = json['user']['token'] as String;
           return Either.right(newRequestToken);
         case 401:
           return Either.left(SignFailure.unauthorized);
