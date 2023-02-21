@@ -33,7 +33,7 @@ class _SignInViewsState extends State<SignInViews> with Validations {
                     onChanged: (text) {
                       _username = text.trim().toLowerCase();
                     },
-                    decoration: const InputDecoration(hintText: 'username'),
+                    decoration: const InputDecoration(hintText: 'Email'),
                     validator: (text) => combiner([
                       () => isNotEmpty(text, 'Please inform user login'),
                     ]),
@@ -44,7 +44,7 @@ class _SignInViewsState extends State<SignInViews> with Validations {
                     onChanged: (text) {
                       _password = text.replaceAll(' ', '').toLowerCase();
                     },
-                    decoration: const InputDecoration(hintText: 'password'),
+                    decoration: const InputDecoration(hintText: 'Password'),
                     validator: (text) => combiner([
                       () => isNotEmpty(text),
                       () => validatorNumber(text, characterSize),
@@ -64,7 +64,7 @@ class _SignInViewsState extends State<SignInViews> with Validations {
                           }
                         },
                         color: Colors.blue,
-                        child: const Text("Sign"),
+                        child: const Text('Sign'),
                       );
                     },
                   )
@@ -97,6 +97,8 @@ class _SignInViewsState extends State<SignInViews> with Validations {
         SignFailure.notFound: 'Not found',
         SignFailure.unauthorized: 'Invalid password',
         SignFailure.unknown: 'Internal erro',
+        SignFailure.network: 'no internet access',
+        SignFailure.invalidEmail: 'Invalid email',
       }[failure];
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

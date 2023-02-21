@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:notas/app/data/http/http.dart';
 import 'package:notas/app/data/repositories_implementation/authentication_repository_impl.dart';
 import 'package:notas/app/data/repositories_implementation/connectivity_repository_impl.dart';
 import 'package:notas/app/data/services/remote/authentication_api.dart';
@@ -17,7 +18,10 @@ void main() {
       authenticationRepository: AuthenticationRepositoryImpl(
         const FlutterSecureStorage(),
         AuthenticationAPI(
-          http.Client(),
+          Http(
+            client: http.Client(),
+            baseUrl: 'http://192.168.1.113:3333',
+          ),
         ),
       ),
       child: const MyApp()));
