@@ -34,7 +34,7 @@ class SubmitButton extends StatelessWidget {
     if (!controller.mounted) {
       return;
     }
-    result.when((failure) {
+    result.when(left: (failure) {
       final message = failure.when(
         notFound: () => 'Not found',
         invalidEmail: () => 'invalid Email',
@@ -48,7 +48,7 @@ class SubmitButton extends StatelessWidget {
           content: Text(message),
         ),
       );
-    }, (user) {
+    }, right: (user) {
       final SessionController sessionController = context.read();
       sessionController.setUser(user);
       Navigator.pushReplacementNamed(

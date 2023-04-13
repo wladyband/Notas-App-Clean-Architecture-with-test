@@ -10,13 +10,21 @@ class AuthenticationAPI {
     if (failure.statusCode != null) {
       switch (failure.statusCode!) {
         case 400:
-          return Either.left(SignInFailure.invalidEmail());
+          return Either.left(
+            SignInFailure.invalidEmail(),
+          );
         case 401:
-          return Either.left(SignInFailure.unauthorized());
+          return Either.left(
+            SignInFailure.unauthorized(),
+          );
         case 404:
-          return Either.left(SignInFailure.notFound());
+          return Either.left(
+            SignInFailure.notFound(),
+          );
         default:
-          return Either.left(SignInFailure.unknown());
+          return Either.left(
+            SignInFailure.unknown(),
+          );
       }
     }
     if (failure.exception is NetworkException) {
@@ -26,6 +34,7 @@ class AuthenticationAPI {
   }
 
   AuthenticationAPI(this._http);
+
   // final _baseURL = 'http://192.168.1.113:3333/sessions';
   late final String newRequestToken;
 
@@ -47,8 +56,8 @@ class AuthenticationAPI {
       },
     );
     return result.when(
-      _handleFailure,
-      (newRequestIdUser) => Either.right(newRequestIdUser),
+     left: _handleFailure,
+     right:  (newRequestIdUser) => Either.right(newRequestIdUser),
     );
   }
 }

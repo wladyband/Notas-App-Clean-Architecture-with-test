@@ -37,10 +37,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       password: password,
     );
     return loginResult.when(
-      (failure) {
+     left:  (failure) {
         return Either.left(failure);
       },
-      (newRequestIdUser) async {
+     right:  (newRequestIdUser) async {
         //TUDO  await _secureStorage.write(key: _key, value: newRequestToken);
         final user = await _accountAPI.getAccount(newRequestIdUser);
         if (user == null) {
