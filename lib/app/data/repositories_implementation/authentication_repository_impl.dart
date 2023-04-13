@@ -44,7 +44,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
         //TUDO  await _secureStorage.write(key: _key, value: newRequestToken);
         final user = await _accountAPI.getAccount(newRequestIdUser);
         if (user == null) {
-          return Either.left(Unknown());
+          return Either.left(SignInFailure.unknown());
         }
         return Either.right(user);
       },

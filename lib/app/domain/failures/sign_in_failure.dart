@@ -4,9 +4,13 @@ part 'sign_in_failure.freezed.dart';
 
 @freezed
 class SignInFailure with _$SignInFailure {
-  factory SignInFailure.notFound() = NotFound;
-  factory SignInFailure.invalidEmail() = InvalidEmail;
-  factory SignInFailure.network() = Network;
-  factory SignInFailure.unauthorized() = Unauthorized;
-  factory SignInFailure.unknown() = Unknown;
+  factory SignInFailure.notFound() = SignInFailureNotFound;
+
+  factory SignInFailure.invalidEmail() = SignInFailureinvalidEmail;
+
+  factory SignInFailure.network() = SignInFailureNetwork;
+
+  factory SignInFailure.unauthorized() = SignInFailureUnauthorized;
+
+  factory SignInFailure.unknown() = SignInFailureUnknown;
 }
