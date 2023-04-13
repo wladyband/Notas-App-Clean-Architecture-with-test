@@ -35,21 +35,14 @@ class SubmitButton extends StatelessWidget {
       return;
     }
     result.when((failure) {
-      final message = () {
-        if (failure is NotFound) {
-          return 'Not found';
-        }
-        if (failure is Unauthorized) {
-          return 'invalid authentication';
-        }
-        if (failure is Network) {
-          return 'Not network';
-        }
-        if (failure is InvalidEmail) {
-          return 'Not invalid email';
-        }
-        return 'Internal error';
-      }();
+      final message = failure.when(
+        notFound: () => 'Not found',
+        invalidEmail: () => 'invalid Email',
+        network: () => 'Not network',
+        unauthorized: () => 'invalid authentication',
+        unknown: () => 'Internal error',
+      );
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(message),
