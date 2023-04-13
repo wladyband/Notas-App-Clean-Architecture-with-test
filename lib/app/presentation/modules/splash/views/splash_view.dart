@@ -31,6 +31,10 @@ class _SplashViewState extends State<SplashView> {
     final SessionController sessionController = context.read();
     final hasInternet = await connectivityRepository.hasInternet;
 
+
+    if (!hasInternet){
+      _goTo(Routes.offline);
+    }
     if (hasInternet) {
       final isSignedIn = await authenticationRepository.isSignedIn;
       if (isSignedIn) {
@@ -47,9 +51,8 @@ class _SplashViewState extends State<SplashView> {
       } else if (mounted) {
         _goTo(Routes.signIn);
       }
-    } else {
-      _goTo(Routes.offline);
     }
+
   }
 
   _goTo(String routeName) {
