@@ -1,34 +1,35 @@
 import 'package:notas/app/data/http/http.dart';
 import 'package:notas/app/domain/either.dart';
+import 'package:notas/app/domain/failures/sign_in_failure.dart';
 import 'package:notas/app/domain/models/enums.dart';
 
 class AuthenticationAPI {
   final Http _http;
 
-  Either<SignFailure, String> _handleFailure(HttpFailure failure) {
+  Either<SignInFailure, String> _handleFailure(HttpFailure failure) {
     if (failure.statusCode != null) {
       switch (failure.statusCode!) {
         case 400:
-          return Either.left(SignFailure.invalidEmail);
+          return Either.left(InvalidEmail());
         case 401:
-          return Either.left(SignFailure.unauthorized);
+          return Either.left(Unauthorized());
         case 404:
-          return Either.left(SignFailure.notFound);
+          return Either.left(NotFound());
         default:
-          return Either.left(SignFailure.unknown);
+          return Either.left(Unknown());
       }
     }
     if (failure.exception is NetworkException) {
-      return Either.left(SignFailure.network);
+      return Either.left(Network());
     }
-    return Either.left(SignFailure.unknown);
+    return Either.left(Unknown());
   }
 
   AuthenticationAPI(this._http);
   // final _baseURL = 'http://192.168.1.113:3333/sessions';
   late final String newRequestToken;
 
-  Future<Either<SignFailure, String>> createSessionWithLogin({
+  Future<Either<SignInFailure, String>> createSessionWithLogin({
     required String email,
     required String password,
   }) async {

@@ -1,5 +1,5 @@
 import 'package:notas/app/domain/either.dart';
-import 'package:notas/app/domain/models/enums.dart';
+import 'package:notas/app/domain/failures/sign_in_failure.dart';
 import 'package:notas/app/domain/models/user.dart';
 import 'package:notas/app/domain/repositories/authentication_repository.dart';
 import 'package:notas/app/presentation/global/state_notifier.dart';
@@ -29,7 +29,7 @@ class SignInController extends StateNotifier<SignInState> {
     );
   }
 
-  Future<Either<SignFailure, User>> submit() async {
+  Future<Either<SignInFailure, User>> submit() async {
     state = state.copyWith(fetching: true);
     final result = await authenticationRepository.signIn(
       state.username,

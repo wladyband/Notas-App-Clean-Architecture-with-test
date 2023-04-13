@@ -2,7 +2,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:notas/app/data/services/remote/account_api.dart';
 import 'package:notas/app/data/services/remote/authentication_api.dart';
 import 'package:notas/app/domain/either.dart';
-import 'package:notas/app/domain/models/enums.dart';
+import 'package:notas/app/domain/failures/sign_in_failure.dart';
+
 import 'package:notas/app/domain/models/user.dart';
 import 'package:notas/app/domain/repositories/authentication_repository.dart';
 
@@ -26,7 +27,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<SignFailure, User>> signIn(
+  Future<Either<SignInFailure, User>> signIn(
     String username,
     String password,
   ) async {
@@ -43,7 +44,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
         //TUDO  await _secureStorage.write(key: _key, value: newRequestToken);
         final user = await _accountAPI.getAccount(newRequestIdUser);
         if (user == null) {
-          return Either.left(SignFailure.unknown);
+          return Either.left(Unknown());
         }
         return Either.right(user);
       },
