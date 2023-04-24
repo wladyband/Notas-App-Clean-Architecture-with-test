@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:notas/app/domain/typedefs.dart';
 
 part 'product.freezed.dart';
 part 'product.g.dart';
@@ -18,16 +19,16 @@ class Product with _$Product {
     return '$id $name $price $quantity';
   }
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory Product.fromJson(jsonMapDynamic json) => Product(
     id: json['id'],
     name: json['name'],
     price: num.parse(json['price']),
     quantity: json['quantity'],
   );
 
-  static List<Product> fromJsonList(List<Map<String, dynamic>> jsonList) =>
+  static List<Product> fromJsonList(jsonListMapDynamic jsonList) =>
       jsonList.map((json) => Product.fromJson(json)).toList();
 
-  static List<Map<String, dynamic>> toJsonList(List<Product> products) =>
+  static jsonListMapDynamic toJsonList(List<Product> products) =>
       products.map((product) => product.toJson()).toList();
 }

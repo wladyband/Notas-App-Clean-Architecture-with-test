@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:notas/app/domain/typedefs.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -17,7 +18,7 @@ class User with _$User {
     return '$name $id $email';
   }
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory User.fromJson(jsonMapDynamic json) => _$UserFromJson(json);
 }
 
 
