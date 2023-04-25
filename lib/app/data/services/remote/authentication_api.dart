@@ -35,7 +35,6 @@ class AuthenticationAPI {
 
   AuthenticationAPI(this._http);
 
-  // final _baseURL = 'http://192.168.1.113:3333/sessions';
   late final String newRequestToken;
 
   Future<Either<SignInFailure, String>> createSessionWithLogin({
@@ -56,8 +55,8 @@ class AuthenticationAPI {
       },
     );
     return result.when(
-     left: _handleFailure,
-     right:  (newRequestIdUser) => Either.right(newRequestIdUser),
+      left: _handleFailure,
+      right: (newRequestIdUser) => Either.right(newRequestIdUser),
     );
   }
 }

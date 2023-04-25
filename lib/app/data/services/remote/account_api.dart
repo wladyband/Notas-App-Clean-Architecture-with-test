@@ -8,22 +8,19 @@ class AccountAPI {
   AccountAPI(this._http);
 
   Future<User?> getAccount(String newRequestIdUser) async {
-
     final result = await _http.request(
       '/users',
       queryParameter: {
         'id': newRequestIdUser,
       },
-
       onSuccess: (json) {
         return User.fromJson(json);
       },
-      method: HttpMethod.get,
     );
 
     return result.when(
-     left:  (_) => null,
-     right:  (user) => user,
+      left: (_) => null,
+      right: (user) => user,
     );
   }
 }

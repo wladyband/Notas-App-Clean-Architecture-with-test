@@ -11,7 +11,7 @@ import 'package:notas/app/data/services/remote/productAPI.dart';
 import 'package:notas/app/data/services/remote/account_api.dart';
 import 'package:notas/app/data/services/remote/authentication_api.dart';
 import 'package:notas/app/data/services/remote/internet_checker.dart';
-import 'package:notas/app/domain/repositories/ProductRepository.dart';
+import 'package:notas/app/domain/repositories/product_repository.dart';
 import 'package:notas/app/domain/repositories/account_repository.dart';
 import 'package:notas/app/domain/repositories/authentication_repository.dart';
 import 'package:notas/app/domain/repositories/connectivity_repository.dart';

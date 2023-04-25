@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notas/app/domain/repositories/ProductRepository.dart';
+import 'package:notas/app/domain/repositories/product_repository.dart';
 import 'package:notas/app/presentation/global/controller/session_controller.dart';
 import 'package:notas/app/presentation/routes/routes.dart';
 import 'package:provider/provider.dart';
