@@ -1,5 +1,6 @@
 import 'package:notas/app/data/http/http.dart';
 import 'package:notas/app/domain/either.dart';
+import 'package:notas/app/domain/failures/http_request/http_request_failure.dart';
 import 'package:notas/app/domain/failures/sign_in_failure.dart';
 import 'package:notas/app/domain/models/enums.dart';
 import 'package:notas/app/domain/models/product.dart';
@@ -30,28 +31,28 @@ class ProductAPI {
     );
   }
 
-  Either<SignInFailure, String> _handleFailure(HttpFailure failure) {
+  Either<HttpRequestFailure, String> _handleFailure(HttpFailure failure) {
     if (failure.statusCode != null) {
       switch (failure.statusCode!) {
         case 400:
-          return Either.left(SignInFailure.invalidEmail());
+          return Either.left(HttpRequestFailure.productUnlist());
         case 401:
-          return Either.left(SignInFailure.unauthorized());
+          return Either.left(HttpRequestFailure.unauthorized());
         case 404:
-          return Either.left(SignInFailure.notFound());
+          return Either.left(HttpRequestFailure.notFound());
         default:
-          return Either.left(SignInFailure.unknown());
+          return Either.left(HttpRequestFailure.unknown());
       }
     }
     if (failure.exception is NetworkException) {
-      return Either.left(SignInFailure.network());
+      return Either.left(HttpRequestFailure.network());
     }
-    return Either.left(SignInFailure.unknown());
+    return Either.left(HttpRequestFailure.unknown());
   }
 
-  Future<Either<SignInFailure, String>> createProduct(String newRequestIdUser, {
+  Future<Either<HttpRequestFailure, String>> createProduct(String newRequestIdUser, {
     required String name,
-    required double price,
+    required num price,
     required int quantity,
 
   }) async {

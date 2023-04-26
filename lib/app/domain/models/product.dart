@@ -7,7 +7,7 @@ part 'product.g.dart';
 @Freezed(toJson: true)
 class Product with _$Product {
   const factory Product({
-    required String id,
+    String? id,
     required String name,
     required num price,
     required int quantity,
@@ -22,8 +22,8 @@ class Product with _$Product {
   factory Product.fromJson(jsonMapDynamic json) => Product(
     id: json['id'],
     name: json['name'],
-    price: num.parse(json['price']),
-    quantity: json['quantity'],
+    price: json['price'] is num ? double.parse(json['price'].toString()) : 0,
+    quantity: json['quantity'] is num ? int.parse(json['quantity'].toString()) : 0,
   );
 
   static List<Product> fromJsonList(jsonListMapDynamic jsonList) =>

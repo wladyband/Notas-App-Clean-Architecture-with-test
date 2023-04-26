@@ -18,6 +18,7 @@ class Http {
   final String _baseUrl;
   final Client _client;
   String? idUserFind;
+  String? alreadyContainsIdUser;
   String? token;
   Map? findId;
 
@@ -25,14 +26,14 @@ class Http {
     required Client client,
     required String baseUrl,
     String? token,
-  })  : _client = client,
+  })
+      : _client = client,
         token = token,
         _baseUrl = baseUrl;
 
   get defaultValue => null;
 
-  Future<Either<HttpFailure, Right>> request<Right>(
-    String path, {
+  Future<Either<HttpFailure, Right>> request<Right>(String path, {
     Right Function(dynamic responseBody)? onSuccess,
     HttpMethod method = HttpMethod.get,
     Map<String, String> headers = const {},
@@ -117,8 +118,11 @@ class Http {
       if (responseBody is Map) {
         findId = responseBody['user'];
         if (findId != null) {
-          idUserFind = findId!.values.first['id'];
-          token = responseBody['user']['token'];
+          alreadyContainsIdUser = responseBody['id'];
+          if ( alreadyContainsIdUser  == null) {
+            idUserFind = findId!.values.first['id'];
+            token = responseBody['user']['token'];
+          }
         }
       }
 
@@ -143,7 +147,7 @@ class Http {
           responseBody.map((item) => item as Map<String, dynamic>).toList();
           int value = responseBodyList.length;
 
-          if (value != 0 ) {
+          if (value != 0) {
             return Either.right(onSuccessCustom!(responseBodyList));
           }
         }
