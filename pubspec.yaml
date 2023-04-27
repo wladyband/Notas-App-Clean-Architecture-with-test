@@ -43,6 +43,8 @@ dependencies:
   equatable: ^2.0.5
   json_annotation: ^4.8.0
   freezed_annotation: ^2.2.0
+  pagination_flutter: ^0.0.8
+  pagination_view: ^2.0.0
 
 dev_dependencies:
   flutter_test:
