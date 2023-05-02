@@ -21,6 +21,15 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
+  Future<Either<HttpRequestFailure, Product>> getProductIdProduct(String idProduct) async {
+    final product = await _productAPI.getProductIdProduct(
+      idProduct,
+    );
+    return product;
+  }
+
+
+  @override
   Future<Either<HttpRequestFailure, Product>> createProduct(
     String name,
     num price,
@@ -39,4 +48,32 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(HttpRequestFailure.productUnlist());
     }
   }
+
+  @override
+  Future<Either<HttpRequestFailure, Product>> updateProduct(
+      String idProduct, String name, num price, int quantity) async {
+    try {
+      final result = await _productAPI.updateProduct(
+        idProduct,
+        name: name,
+        price: price,
+        quantity: quantity,
+      );
+      return result.when(
+        left: (failure) => Left(HttpRequestFailure.productUnlist()),
+        right: (productId) => Right(
+          Product(
+            id: idProduct,
+            name: name,
+            price: price,
+            quantity: quantity,
+          ),
+        ),
+      );
+    } catch (e) {
+      return Left(HttpRequestFailure.productUnlist());
+    }
+  }
+
 }
+

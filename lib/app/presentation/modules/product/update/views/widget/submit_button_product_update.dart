@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:notas/app/presentation/global/controller/session_controller.dart';
-import 'package:notas/app/presentation/modules/product/controller/product_registration_controller.dart';
+import 'package:notas/app/presentation/modules/product/update/controller/product_update_controller.dart';
 import 'package:notas/app/presentation/routes/routes.dart';
 import 'package:provider/provider.dart';
 
-class SubmitButton extends StatelessWidget {
-  const SubmitButton({super.key});
+class SubmitButtonProductUpdate extends StatelessWidget {
+  const SubmitButtonProductUpdate({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final ProductRegistrationController controller = Provider.of(context);
-    if (controller.state.fetching) {
+
+    final ProductUpdateController controller = Provider.of(context);
+    if (controller.state.fetching!) {
       return const CircularProgressIndicator();
     }
     return MaterialButton(
@@ -26,7 +26,7 @@ class SubmitButton extends StatelessWidget {
   }
 
   Future<void> _submit(BuildContext context) async {
-    final ProductRegistrationController controller = context.read();
+    final ProductUpdateController controller = context.read();
 
     final result = await controller.submit();
 
@@ -51,7 +51,7 @@ class SubmitButton extends StatelessWidget {
     }, right: (product) {
       Navigator.pushReplacementNamed(
         context,
-        Routes.home,
+        Routes.shopping_list,
       );
     });
   }

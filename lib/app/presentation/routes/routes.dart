@@ -5,5 +5,6 @@ class Routes {
   static const home = '/home';
   static const offline = '/offline';
   static const product_registration = '/product_registration';
+  static const product_update = '/product_update';
   static const shopping_list = '/shopping_list';
 }

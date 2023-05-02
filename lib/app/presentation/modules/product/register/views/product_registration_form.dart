@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:notas/app/data/services/utils/validations.dart';
-import 'package:notas/app/presentation/modules/product/controller/product_registrarion_state.dart';
-import 'package:notas/app/presentation/modules/product/controller/product_registration_controller.dart';
-import 'package:notas/app/presentation/modules/product/views/widget/submit_button.dart';
+import 'package:notas/app/presentation/modules/product/register/controller/product_registrarion_state.dart';
+import 'package:notas/app/presentation/modules/product/register/controller/product_registration_controller.dart';
+import 'package:notas/app/presentation/modules/product/register/views/widget/submit_button_product_registration.dart';
+
 import 'package:provider/provider.dart';
 
 class ProductRegistrationForm extends StatelessWidget with Validations {
@@ -83,7 +84,7 @@ class ProductRegistrationForm extends StatelessWidget with Validations {
                       ]),
                     ),
                     const SizedBox(height: 20),
-                    const SubmitButton(),
+                    const SubmitButtonProductRegistration(),
                   ],
                 ),
               );
