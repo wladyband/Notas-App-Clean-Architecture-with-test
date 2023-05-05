@@ -10,11 +10,7 @@ import 'package:notas/app/presentation/routes/routes.dart';
 import 'package:provider/provider.dart';
 
 class ProductUpdateForm extends StatefulWidget {
-  const ProductUpdateForm({Key? key,  this.id,  this.name,  this.price,  this.quantity}) : super(key: key);
-  final String? id;
-  final String? name;
-  final num? price;
-  final int? quantity;
+  const ProductUpdateForm({Key? key}) : super(key: key);
 
   @override
   State<ProductUpdateForm> createState() => _ProductUpdateFormState();
@@ -23,33 +19,23 @@ class ProductUpdateForm extends StatefulWidget {
 class _ProductUpdateFormState extends State<ProductUpdateForm>
     with Validations {
   final int characterSize = 4;
-  final _formKey = GlobalKey<FormState>();
+
   late String selectedProductId;
-  late Product capturedProduct;
-  late final TextEditingController _nameController;
-  late final TextEditingController _priceController;
-  late final TextEditingController _quantityController;
 
-  _ProductUpdateFormState() {
-    capturedProduct = _createMockProduct();
-  }
+  late TextEditingController _productIdController;
+  late TextEditingController _productNameController;
+  late TextEditingController _productPriceController;
+  late TextEditingController _productQuantityController;
 
-  Product _createMockProduct() {
-    return const Product(
-      id: '1',
-      name: 'Mock Product',
-      price: 19.99,
-      quantity: 10,
-    );
-  }
+  late Product product = const Product(name: '', price: 0, quantity: 0);
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.name);
-    _priceController = TextEditingController(text: widget.price?.toString());
-    _quantityController =
-        TextEditingController(text: widget.quantity?.toString());
+    _productIdController = TextEditingController();
+    _productNameController = TextEditingController();
+    _productPriceController = TextEditingController();
+    _productQuantityController = TextEditingController();
   }
 
   @override
@@ -65,11 +51,12 @@ class _ProductUpdateFormState extends State<ProductUpdateForm>
         print('Erro ao carregar o produto: $failure');
       },
       right: (productData) {
-        _nameController.text = productData.name;
-        _priceController.text = productData.price.toString();
-        _quantityController.text = productData.quantity.toString();
+        _productIdController.text = productData.id!;
+        _productNameController.text = productData.name;
+        _productPriceController.text = productData.price.toString();
+        _productQuantityController.text = productData.quantity.toString();
         setState(() {
-          capturedProduct = productData;
+          product = productData;
         });
       },
     );
@@ -77,18 +64,19 @@ class _ProductUpdateFormState extends State<ProductUpdateForm>
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _priceController.dispose();
-    _quantityController.dispose();
+    _productIdController.dispose();
+    _productNameController.dispose();
+    _productPriceController.dispose();
+    _productQuantityController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
+    final _formKey = GlobalKey<FormState>();
     return ChangeNotifierProvider<ProductUpdateController>(
       create: (_) => ProductUpdateController(
-        const ProductUpdateForm(),
+        const ProductUpdateState(),
         productRepository: context.read(),
       ),
       child: Scaffold(
@@ -106,12 +94,40 @@ class _ProductUpdateFormState extends State<ProductUpdateForm>
             key: _formKey,
             child: Builder(builder: (context) {
               final controller = Provider.of<ProductUpdateController>(context);
+
+
+              controller.onProductIdChanged(_productIdController.text);
+              controller.onProductNameChanged(_productNameController.text);
+
+              String priceText = _productPriceController.text;
+              if (priceText.isNotEmpty) {
+                double valueDoublePrice = double.parse(priceText);
+                if (valueDoublePrice != null) {
+                  controller.onProductPriceChanged(valueDoublePrice);
+                }
+              }
+
+              String quantityText = _productQuantityController.text;
+              if (quantityText.isNotEmpty) {
+                int? valueDoubleQuantity = int.tryParse(quantityText);
+                if (valueDoubleQuantity != null) {
+                  controller.onProductQuantityChanged(valueDoubleQuantity);
+                }
+              }
+
               return AbsorbPointer(
                 absorbing: controller.state.fetching!,
                 child: ListView(
                   children: [
                     TextFormField(
-                      controller: _nameController,
+                      controller: _productNameController,
+                      onChanged: (text) {
+                        try {
+                          controller.onProductNameChanged(text);
+                        } catch (e) {
+                          print('Erro  no nome do produto : $e');
+                        }
+                      },
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: const InputDecoration(labelText: "nome"),
                       textInputAction: TextInputAction.next,
@@ -120,10 +136,16 @@ class _ProductUpdateFormState extends State<ProductUpdateForm>
                             isNotEmpty(text, 'Por favor preencha o campo nome'),
                         () => validatorNumber(text, characterSize),
                       ]),
-
                     ),
                     TextFormField(
-                      controller: _priceController,
+                      controller: _productPriceController,
+                      onChanged: (value) {
+                        try {
+                          controller.onProductPriceChanged(double.parse(value));
+                        } catch (e) {
+                          print('Erro  no preço do produto : $e');
+                        }
+                      },
                       decoration: const InputDecoration(labelText: "Preço"),
                       textInputAction: TextInputAction.next,
                       keyboardType: const TextInputType.numberWithOptions(
@@ -134,10 +156,16 @@ class _ProductUpdateFormState extends State<ProductUpdateForm>
                             value, 'Por favor preencha o campo preço'),
                         () => isNumeric(value),
                       ]),
-
                     ),
                     TextFormField(
-                      controller: _quantityController,
+                      controller: _productQuantityController,
+                      onChanged: (value) {
+                        try {
+                          controller.onProductQuantityChanged(int.parse(value));
+                        } catch (e) {
+                          print('Erro  na quantidade do produto : $e');
+                        }
+                      },
                       decoration:
                           const InputDecoration(labelText: "Quantidade"),
                       textInputAction: TextInputAction.next,
@@ -147,15 +175,9 @@ class _ProductUpdateFormState extends State<ProductUpdateForm>
                             text, 'Por favor preencha o campo quantidade'),
                         () => isNumeric(text),
                       ]),
-
                     ),
                     const SizedBox(height: 20),
-                    SubmitButtonProductUpdate(
-                      capturedProduct: capturedProduct,
-                      nameController: _nameController,
-                      priceController: _priceController,
-                      quantityController: _quantityController,
-                    ),
+                    const SubmitButtonProductUpdate(),
                   ],
                 ),
               );
