@@ -15,7 +15,7 @@ Map<String, Widget Function(BuildContext)> get appRoutes {
     Routes.home: (context) => const HomeViews(),
     Routes.offline: (context) => const OfflineViews(),
     Routes.product_registration: (context) => const ProductRegistrationForm(),
-    Routes.product_update: (context) => const ProductUpdateForm(),
+    Routes.product_update: (context) => ProductUpdateForm(),
     Routes.shopping_list: (context) => const ShoppingListView(),
 
   };

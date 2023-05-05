@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
+  import 'package:flutter/material.dart';
 
-class OfflineViews extends StatelessWidget {
-  const OfflineViews({super.key});
+  class OfflineViews extends StatelessWidget {
+    const OfflineViews({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Offline Views"),
-      ),
-    );
+    @override
+    Widget build(BuildContext context) {
+      return const Scaffold(
+        body: Center(
+          child: Text("Offline Views"),
+        ),
+      );
+    }
   }
-}

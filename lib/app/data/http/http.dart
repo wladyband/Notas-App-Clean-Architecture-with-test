@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:notas/app/domain/either.dart';
 import 'package:notas/app/domain/models/enums.dart';
-import 'package:notas/app/domain/models/product.dart';
+
 
 part 'failure.dart';
 

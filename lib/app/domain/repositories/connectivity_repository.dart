@@ -1,3 +1,3 @@
-abstract class ConnectivityRepository {
-  Future<bool> get hasInternet;
-}
+  abstract class ConnectivityRepository {
+    Future<bool> get hasInternet;
+  }
